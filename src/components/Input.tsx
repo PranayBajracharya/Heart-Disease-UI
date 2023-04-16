@@ -12,8 +12,9 @@ export default function CustomInput(props: {
   accordion?: ReactNode;
   error?: string;
   isRequired?: boolean;
+  message?: string;
 }) {
-  const { label, error, isRequired = false } = props;
+  const { label, error, isRequired = false, message } = props;
 
   return (
     <FormControl
@@ -24,7 +25,22 @@ export default function CustomInput(props: {
       bg="white"
       isInvalid={!!error}
     >
-      <ShowMore>
+      {message ? (
+        <ShowMore message={message}>
+          <ShowMore.Label>
+            {label}
+            {isRequired && (
+              <span
+                role="presentation"
+                aria-hidden="true"
+                style={{ color: "red" }}
+              >
+                &nbsp;*
+              </span>
+            )}
+          </ShowMore.Label>
+        </ShowMore>
+      ) : (
         <FormLabel>
           {label}
           {isRequired && (
@@ -37,7 +53,7 @@ export default function CustomInput(props: {
             </span>
           )}
         </FormLabel>
-      </ShowMore>
+      )}
       {props.children}
       <FormErrorMessage>{!!error && error}</FormErrorMessage>
     </FormControl>

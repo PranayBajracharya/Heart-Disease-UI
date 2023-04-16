@@ -7,10 +7,16 @@ import {
 } from "@chakra-ui/accordion";
 import { ReactNode, useState } from "react";
 import { BsPlusCircleFill, BsPlusCircle } from "react-icons/bs";
-import { Icon } from "@chakra-ui/react";
+import { FormLabel, Icon } from "@chakra-ui/react";
 
-export function ShowMore(props: { children: ReactNode }) {
+function Label(props: { children: ReactNode }) {
   const { children } = props;
+
+  return <FormLabel>{children}</FormLabel>;
+}
+
+export function ShowMore(props: { message?: string; children: ReactNode }) {
+  const { message, children } = props;
   const [show, setShow] = useState(-1);
 
   const handleShowMore = () => {
@@ -41,12 +47,11 @@ export function ShowMore(props: { children: ReactNode }) {
           </AccordionButton>
         </Flex>
         <AccordionPanel p={0} pb={4}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          {message}
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
   );
 }
+
+ShowMore.Label = Label;

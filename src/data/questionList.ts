@@ -1,12 +1,14 @@
-type QuestionType = {
-  question: string;
-  isRequired?: boolean;
-};
+// type QuestionType = {
+//   question: string;
+//   isRequired?: boolean;
+//   message?: string;
+// };
 
-export const questionList: Record<string, QuestionType> = {
+export const questionList = {
   age: {
     question: "Enter your age",
     isRequired: true,
+    message: "How old are you?",
   },
   sex: {
     question: "Choose your gender",

@@ -73,6 +73,7 @@ export default function Home() {
           <CustomInput
             label={questionList.age.question}
             error={error?.get("age")}
+            message={questionList.age.message}
             isRequired={questionList.age.isRequired}
           >
             <NumberInput min={MIN_AGE} name="age">
