@@ -1,4 +1,4 @@
-import { Heading, Stack, Text } from "@chakra-ui/react";
+import { Heading, Stack } from "@chakra-ui/react";
 
 const Header: React.FC = () => {
   return (
@@ -10,6 +10,7 @@ const Header: React.FC = () => {
       zIndex="100"
       borderBottom="1px solid"
       borderColor="purple.400"
+      bg="inherit"
     >
       <Heading>Heart Disease</Heading>
     </Stack>

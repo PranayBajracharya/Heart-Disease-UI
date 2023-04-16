@@ -1,6 +1,12 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { ReactNode } from "react";
+import { ShowMore } from "./ShowMore";
 
-export default function CustomeInput(props: any) {
+export default function CustomInput(props: {
+  label: string;
+  children: ReactNode;
+  accordion?: ReactNode;
+}) {
   const { label } = props;
   return (
     <FormControl
@@ -10,7 +16,9 @@ export default function CustomeInput(props: any) {
       py="1.6rem"
       bg="white"
     >
-      <FormLabel>{label}</FormLabel>
+      <ShowMore>
+        <FormLabel>{label}</FormLabel>
+      </ShowMore>
       {props.children}
     </FormControl>
   );
