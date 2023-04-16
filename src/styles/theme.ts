@@ -1,6 +1,23 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
+  colors: {
+    primary: {
+      50: "#f9fbfc",
+      100: "#dbeafe",
+      200: "#bfdbfe",
+      300: "#93c5fd",
+      400: "#60a5fa",
+      500: "#3b82f6",
+      600: "#2563eb",
+      700: "#1d4ed8",
+      800: "#1e40af",
+      900: "#1e3a8a",
+    },
+    purple: {
+      400: "#7f55d9",
+    },
+  },
   styles: {
     global: {
       "html,body": {

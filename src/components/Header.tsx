@@ -2,7 +2,15 @@ import { Heading, Stack, Text } from "@chakra-ui/react";
 
 const Header: React.FC = () => {
   return (
-    <Stack px="5rem" py={5} mb="5" bg="gray.300">
+    <Stack
+      position="fixed"
+      w="100%"
+      px="5rem"
+      py={5}
+      zIndex="100"
+      borderBottom="1px solid"
+      borderColor="purple.400"
+    >
       <Heading>Heart Disease</Heading>
     </Stack>
   );
