@@ -1,5 +1,5 @@
-import CustomeInput from "@/components/Input";
-import Submit from "@/components/Submit";
+import CustomInput from "@components/Input";
+import Submit from "@components/Submit";
 import {
   MAX_BPS,
   MAX_CHOLESTRAL,
@@ -10,33 +10,48 @@ import {
   MIN_CHOLESTRAL,
   MIN_OLD_PEAK,
   MIN_THALACH,
-} from "@/data/constants";
-import { questionList } from "@/data/questionList";
-import { FormSchema } from "@/schema/form";
+} from "@data/constants";
+import { questionList } from "@data/questionList";
+import { FormErrorKey, formSchema } from "@schema/form";
+import { Grid, GridItem, Heading, Stack } from "@chakra-ui/layout";
 import {
-  Grid,
-  GridItem,
-  Heading,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Radio,
-  RadioGroup,
-  Select,
-  Stack,
-} from "@chakra-ui/react";
+} from "@chakra-ui/number-input";
+import { Radio, RadioGroup } from "@chakra-ui/radio";
+import { Select } from "@chakra-ui/select";
+import { useState } from "react";
 
 export default function Home() {
+  const [error, setError] = useState<Map<FormErrorKey, string> | null>(null);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
 
-    const a = FormSchema.safeParse(formData);
+    const data: any = {};
+    for (const [key, value] of formData.entries()) {
+      data[key] = value ? Number(value) : null;
+    }
 
-    console.log(a);
+    const validate = formSchema.safeParse(data);
+
+    if (validate.success) {
+      console.log(validate);
+      return;
+    }
+
+    const error = new Map<FormErrorKey, string>();
+    validate.error.errors.forEach((value) => {
+      const errorKey = value.path[0] as FormErrorKey;
+      error.set(errorKey, value.message);
+    });
+
+    setError(error);
   };
 
   return (
@@ -55,29 +70,41 @@ export default function Home() {
         my="2rem"
       >
         <GridItem>
-          <CustomeInput label={questionList.age.question}>
-            <NumberInput min={MIN_AGE}>
+          <CustomInput
+            label={questionList.age.question}
+            error={error?.get("age")}
+            isRequired={questionList.age.isRequired}
+          >
+            <NumberInput min={MIN_AGE} name="age">
               <NumberInputField placeholder={questionList.age.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.sex.question}>
-            <Select placeholder={questionList.sex.question}>
-              <option>Male</option>
-              <option>Female</option>
+          <CustomInput
+            label={questionList.sex.question}
+            error={error?.get("sex")}
+            isRequired={questionList.sex.isRequired}
+          >
+            <Select placeholder={questionList.sex.question} name="sex">
+              <option value="1">Male</option>
+              <option value="0">Female</option>
             </Select>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.cp.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.cp.question}
+            error={error?.get("cp")}
+            isRequired={questionList.cp.isRequired}
+          >
+            <RadioGroup name="cp">
               <Stack spacing={5} direction="row">
                 <Radio value="0">Typical angina</Radio>
                 <Radio value="1">Atypical angina</Radio>
@@ -85,47 +112,63 @@ export default function Home() {
                 <Radio value="3">Asymptomatic</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.trestbps.question}>
-            <NumberInput min={MIN_BPS} max={MAX_BPS}>
+          <CustomInput
+            label={questionList.trestbps.question}
+            error={error?.get("trestbps")}
+            isRequired={questionList.trestbps.isRequired}
+          >
+            <NumberInput name="trestbps" min={MIN_BPS} max={MAX_BPS}>
               <NumberInputField placeholder={questionList.trestbps.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.chol.question}>
-            <NumberInput min={MIN_CHOLESTRAL} max={MAX_CHOLESTRAL}>
+          <CustomInput
+            label={questionList.chol.question}
+            error={error?.get("chol")}
+            isRequired={questionList.chol.isRequired}
+          >
+            <NumberInput name="chol" min={MIN_CHOLESTRAL} max={MAX_CHOLESTRAL}>
               <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.fbs.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.fbs.question}
+            error={error?.get("fbs")}
+            isRequired={questionList.fbs.isRequired}
+          >
+            <RadioGroup name="fbs">
               <Stack spacing={5} direction="row">
                 <Radio value="1">Yes</Radio>
                 <Radio value="0">No</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.restecg.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.restecg.question}
+            error={error?.get("restecg")}
+            isRequired={questionList.restecg.isRequired}
+          >
+            <RadioGroup name="restecg">
               <Stack spacing={2} direction="column">
                 <Radio value="0">Normal</Radio>
                 <Radio value="1">
@@ -137,59 +180,84 @@ export default function Home() {
                 </Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.thalach.question}>
-            <NumberInput min={MIN_THALACH} max={MAX_THALACH}>
+          <CustomInput
+            label={questionList.thalach.question}
+            error={error?.get("thalach")}
+            isRequired={questionList.thalach.isRequired}
+          >
+            <NumberInput name="thalach" min={MIN_THALACH} max={MAX_THALACH}>
               <NumberInputField placeholder={questionList.thalach.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.exang.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.exang.question}
+            error={error?.get("exang")}
+            isRequired={questionList.exang.isRequired}
+          >
+            <RadioGroup name="exang">
               <Stack spacing={5} direction="row">
                 <Radio value="1">Yes</Radio>
                 <Radio value="0">No</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.oldpeak.question}>
-            <NumberInput min={MIN_OLD_PEAK} max={MAX_OLD_PEAK} step={0.1}>
+          <CustomInput
+            label={questionList.oldpeak.question}
+            error={error?.get("oldpeak")}
+            isRequired={questionList.oldpeak.isRequired}
+          >
+            <NumberInput
+              name="oldpeak"
+              min={MIN_OLD_PEAK}
+              max={MAX_OLD_PEAK}
+              step={0.1}
+            >
               <NumberInputField placeholder={questionList.oldpeak.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.slope.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.slope.question}
+            error={error?.get("slope")}
+            isRequired={questionList.slope.isRequired}
+          >
+            <RadioGroup name="slope">
               <Stack spacing={5} direction="row">
                 <Radio value="0">No problem</Radio>
                 <Radio value="1">Normal</Radio>
                 <Radio value="2">Worst</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.ca.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.ca.question}
+            error={error?.get("ca")}
+            isRequired={questionList.ca.isRequired}
+          >
+            <RadioGroup name="ca">
               <Stack spacing={5} direction="row">
                 <Radio value="0">0</Radio>
                 <Radio value="1">1</Radio>
@@ -197,19 +265,23 @@ export default function Home() {
                 <Radio value="3">3</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questionList.thal.question}>
-            <RadioGroup>
+          <CustomInput
+            label={questionList.thal.question}
+            error={error?.get("thal")}
+            isRequired={questionList.thal.isRequired}
+          >
+            <RadioGroup name="thal">
               <Stack spacing={5} direction="row">
                 <Radio value="0">Normal</Radio>
                 <Radio value="1">Fixed defect</Radio>
                 <Radio value="2">Reversible defect</Radio>
               </Stack>
             </RadioGroup>
-          </CustomeInput>
+          </CustomInput>
         </GridItem>
       </Grid>
     </form>

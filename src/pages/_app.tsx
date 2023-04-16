@@ -1,8 +1,8 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider, Flex, Stack } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
-import Header from "@/components/Header";
-import theme from "@/styles/theme";
+import Header from "@components/Header";
+import theme from "@styles/theme";
 
 const Layout: React.FC<{ children: ReactNode }> = (props) => {
   return (
