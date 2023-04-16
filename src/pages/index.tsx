@@ -1,5 +1,6 @@
 import CustomeInput from "@/components/Input";
-import { questionList } from "@/data/questionList";
+import Submit from "@/components/Submit";
+import { FormSchema, questionList } from "@/data/questionList";
 import {
   Grid,
   GridItem,
@@ -16,11 +17,24 @@ import {
 } from "@chakra-ui/react";
 
 export default function Home() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e.target);
+
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    const a = FormSchema.safeParse(formData);
+
+    console.log(a);
+  };
+
   return (
-    <main>
+    <form onSubmit={handleSubmit}>
       <Heading as="h2" size="lg">
         How healthy is your heart? We will help you figure that out.
       </Heading>
+      <Submit />
+
       <Grid
         rowGap="2rem"
         columnGap="4rem"
@@ -30,7 +44,7 @@ export default function Home() {
       >
         <GridItem>
           <CustomeInput label={questionList.age.question}>
-            <NumberInput min={0}>
+            <NumberInput min={1}>
               <NumberInputField placeholder={questionList.age.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -186,6 +200,6 @@ export default function Home() {
           </CustomeInput>
         </GridItem>
       </Grid>
-    </main>
+    </form>
   );
 }

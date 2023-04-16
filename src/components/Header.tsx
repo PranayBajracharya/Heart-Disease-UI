@@ -12,7 +12,7 @@ const Header: React.FC = () => {
       borderColor="purple.400"
       bg="inherit"
     >
-      <Heading>Heart Disease</Heading>
+      <Heading as="h1">Heart Disease</Heading>
     </Stack>
   );
 };
