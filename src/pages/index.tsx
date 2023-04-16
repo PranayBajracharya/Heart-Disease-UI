@@ -27,8 +27,9 @@ import { useState } from "react";
 
 export default function Home() {
   const [error, setError] = useState<Map<FormErrorKey, string> | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -41,7 +42,22 @@ export default function Home() {
     const validate = formSchema.safeParse(data);
 
     if (validate.success) {
-      console.log(validate);
+      setIsLoading(true);
+      const response = await fetch("/api/result", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+
+          throw new Error("Something went wrong!");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      console.log(response);
+      setIsLoading(false);
       return;
     }
 
@@ -60,7 +76,7 @@ export default function Home() {
         How healthy is your heart? We will help you figure that out.
       </Heading>
 
-      <Submit />
+      <Submit isLoading={isLoading} />
 
       <Grid
         rowGap="2rem"
@@ -77,7 +93,10 @@ export default function Home() {
             isRequired={questionList.age.isRequired}
           >
             <NumberInput min={MIN_AGE} name="age">
-              <NumberInputField placeholder={questionList.age.question} />
+              <NumberInputField
+                type="number"
+                placeholder={questionList.age.question}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -123,7 +142,10 @@ export default function Home() {
             isRequired={questionList.trestbps.isRequired}
           >
             <NumberInput name="trestbps" min={MIN_BPS} max={MAX_BPS}>
-              <NumberInputField placeholder={questionList.trestbps.question} />
+              <NumberInputField
+                type="number"
+                placeholder={questionList.trestbps.question}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -139,7 +161,10 @@ export default function Home() {
             isRequired={questionList.chol.isRequired}
           >
             <NumberInput name="chol" min={MIN_CHOLESTRAL} max={MAX_CHOLESTRAL}>
-              <NumberInputField placeholder={questionList.chol.question} />
+              <NumberInputField
+                type="number"
+                placeholder={questionList.chol.question}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -191,7 +216,10 @@ export default function Home() {
             isRequired={questionList.thalach.isRequired}
           >
             <NumberInput name="thalach" min={MIN_THALACH} max={MAX_THALACH}>
-              <NumberInputField placeholder={questionList.thalach.question} />
+              <NumberInputField
+                type="number"
+                placeholder={questionList.thalach.question}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -227,7 +255,10 @@ export default function Home() {
               max={MAX_OLD_PEAK}
               step={0.1}
             >
-              <NumberInputField placeholder={questionList.oldpeak.question} />
+              <NumberInputField
+                type="number"
+                placeholder={questionList.oldpeak.question}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
