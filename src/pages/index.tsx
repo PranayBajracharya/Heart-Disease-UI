@@ -1,4 +1,5 @@
 import CustomeInput from "@/components/Input";
+import { questionList } from "@/data/questionList";
 import {
   Grid,
   GridItem,
@@ -28,9 +29,9 @@ export default function Home() {
         my="2rem"
       >
         <GridItem>
-          <CustomeInput label={questions.age}>
+          <CustomeInput label={questionList.age.question}>
             <NumberInput min={0}>
-              <NumberInputField placeholder={questions.age} />
+              <NumberInputField placeholder={questionList.age.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -38,16 +39,18 @@ export default function Home() {
             </NumberInput>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.sex}>
-            <Select placeholder={questions.sex}>
+          <CustomeInput label={questionList.sex.question}>
+            <Select placeholder={questionList.sex.question}>
               <option>Male</option>
               <option>Female</option>
             </Select>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.cp}>
+          <CustomeInput label={questionList.cp.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="0">Typical angina</Radio>
@@ -58,10 +61,11 @@ export default function Home() {
             </RadioGroup>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.trestbps}>
+          <CustomeInput label={questionList.trestbps.question}>
             <NumberInput min={0} max={220}>
-              <NumberInputField placeholder={questions.trestbps} />
+              <NumberInputField placeholder={questionList.trestbps.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -69,10 +73,11 @@ export default function Home() {
             </NumberInput>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.chol}>
+          <CustomeInput label={questionList.chol.question}>
             <NumberInput min={0} max={500}>
-              <NumberInputField placeholder={questions.chol} />
+              <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -80,8 +85,9 @@ export default function Home() {
             </NumberInput>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.fbs}>
+          <CustomeInput label={questionList.fbs.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="1">Yes</Radio>
@@ -90,8 +96,9 @@ export default function Home() {
             </RadioGroup>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.restecg}>
+          <CustomeInput label={questionList.restecg.question}>
             <RadioGroup>
               <Stack spacing={2} direction="column">
                 <Radio value="0">Normal</Radio>
@@ -106,10 +113,11 @@ export default function Home() {
             </RadioGroup>
           </CustomeInput>
         </GridItem>
+
         <GridItem>
-          <CustomeInput label={questions.thalach}>
+          <CustomeInput label={questionList.thalach.question}>
             <NumberInput min={0} max={500}>
-              <NumberInputField placeholder={questions.chol} />
+              <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -119,7 +127,7 @@ export default function Home() {
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questions.exang}>
+          <CustomeInput label={questionList.exang.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="1">Yes</Radio>
@@ -130,9 +138,9 @@ export default function Home() {
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questions.oldpeak}>
+          <CustomeInput label={questionList.oldpeak.question}>
             <NumberInput min={0} max={20} step={0.1}>
-              <NumberInputField placeholder={questions.chol} />
+              <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -142,7 +150,7 @@ export default function Home() {
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questions.slope}>
+          <CustomeInput label={questionList.slope.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="0">No problem</Radio>
@@ -154,7 +162,7 @@ export default function Home() {
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questions.ca}>
+          <CustomeInput label={questionList.ca.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="0">0</Radio>
@@ -167,7 +175,7 @@ export default function Home() {
         </GridItem>
 
         <GridItem>
-          <CustomeInput label={questions.thal}>
+          <CustomeInput label={questionList.thal.question}>
             <RadioGroup>
               <Stack spacing={5} direction="row">
                 <Radio value="0">Normal</Radio>
@@ -181,19 +189,3 @@ export default function Home() {
     </main>
   );
 }
-
-const questions = {
-  age: "Enter your age",
-  sex: "Choose your gender",
-  cp: "Choose your chest pain",
-  trestbps: "Enter your resting blood pressure",
-  chol: "Enter your cholesterol level",
-  fbs: "Is your fasting blood sugar level higher than 120 mg/dl?",
-  restecg: "Choose your resting electrocardiogram result",
-  thalach: "Enter your maximum heart rate achieved during exercise",
-  exang: "Do you have exercise-induced angina?",
-  oldpeak: "Enter your ST depression induced by exercise relative to rest",
-  slope: "Slope of the peak exercise",
-  ca: "Number of major vessels (0-3) colored by fluoroscopy",
-  thal: "Thalassemia",
-} as const;

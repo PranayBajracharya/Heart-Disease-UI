@@ -1,8 +1,13 @@
 import { Box, Flex } from "@chakra-ui/layout";
-import { Accordion, AccordionItem, AccordionPanel } from "@chakra-ui/accordion";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+} from "@chakra-ui/accordion";
 import { ReactNode, useState } from "react";
-import { BsPlusCircle } from "react-icons/bs";
-import { IconButton } from "@chakra-ui/react";
+import { BsPlusCircleFill, BsPlusCircle } from "react-icons/bs";
+import { Icon } from "@chakra-ui/react";
 
 export function ShowMore(props: { children: ReactNode }) {
   const { children } = props;
@@ -22,16 +27,20 @@ export function ShowMore(props: { children: ReactNode }) {
       <AccordionItem border="none">
         <Flex w="100%" alignItems="center">
           <Box flex="1">{children}</Box>
-          <IconButton
+          <AccordionButton
+            width="2rem"
+            display="flex"
+            justifyContent="center"
             onClick={() => handleShowMore()}
-            p={0}
-            bg="inherit"
-            aria-label="Show more"
-            icon={<BsPlusCircle />}
-            color="purple.400"
-          />
+          >
+            <Icon
+              p={0}
+              as={show === 0 ? BsPlusCircleFill : BsPlusCircle}
+              color="purple.400"
+            />
+          </AccordionButton>
         </Flex>
-        <AccordionPanel pb={4}>
+        <AccordionPanel p={0} pb={4}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
