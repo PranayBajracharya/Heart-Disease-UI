@@ -1,25 +1,7 @@
-import { z } from "zod";
-
 type QuestionType = {
   question: string;
   isRequired?: boolean;
 };
-
-export const FormSchema = z.object({
-  age: z.number().min(1),
-  sex: z.number().min(0).max(1),
-  cp: z.number().min(0).max(3),
-  trestbps: z.number().min(0).max(220),
-  chol: z.number().min(0).max(500),
-  fbs: z.number().min(0).max(1),
-  restecg: z.number().min(0).max(2),
-  thalach: z.number().min(0).max(500),
-  exang: z.number().min(0).max(1),
-  oldpeak: z.number().min(0).max(20),
-  slope: z.number().min(0).max(2),
-  ca: z.number().min(0).max(3),
-  thal: z.number().min(0).max(2),
-});
 
 export const questionList: Record<string, QuestionType> = {
   age: {

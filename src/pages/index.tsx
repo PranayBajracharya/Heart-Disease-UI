@@ -1,6 +1,18 @@
 import CustomeInput from "@/components/Input";
 import Submit from "@/components/Submit";
-import { FormSchema, questionList } from "@/data/questionList";
+import {
+  MAX_BPS,
+  MAX_CHOLESTRAL,
+  MAX_OLD_PEAK,
+  MAX_THALACH,
+  MIN_AGE,
+  MIN_BPS,
+  MIN_CHOLESTRAL,
+  MIN_OLD_PEAK,
+  MIN_THALACH,
+} from "@/data/constants";
+import { questionList } from "@/data/questionList";
+import { FormSchema } from "@/schema/form";
 import {
   Grid,
   GridItem,
@@ -19,7 +31,6 @@ import {
 export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.target);
 
     const formData = new FormData(e.target as HTMLFormElement);
 
@@ -33,6 +44,7 @@ export default function Home() {
       <Heading as="h2" size="lg">
         How healthy is your heart? We will help you figure that out.
       </Heading>
+
       <Submit />
 
       <Grid
@@ -44,7 +56,7 @@ export default function Home() {
       >
         <GridItem>
           <CustomeInput label={questionList.age.question}>
-            <NumberInput min={1}>
+            <NumberInput min={MIN_AGE}>
               <NumberInputField placeholder={questionList.age.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -78,7 +90,7 @@ export default function Home() {
 
         <GridItem>
           <CustomeInput label={questionList.trestbps.question}>
-            <NumberInput min={0} max={220}>
+            <NumberInput min={MIN_BPS} max={MAX_BPS}>
               <NumberInputField placeholder={questionList.trestbps.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -90,7 +102,7 @@ export default function Home() {
 
         <GridItem>
           <CustomeInput label={questionList.chol.question}>
-            <NumberInput min={0} max={500}>
+            <NumberInput min={MIN_CHOLESTRAL} max={MAX_CHOLESTRAL}>
               <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -130,8 +142,8 @@ export default function Home() {
 
         <GridItem>
           <CustomeInput label={questionList.thalach.question}>
-            <NumberInput min={0} max={500}>
-              <NumberInputField placeholder={questionList.chol.question} />
+            <NumberInput min={MIN_THALACH} max={MAX_THALACH}>
+              <NumberInputField placeholder={questionList.thalach.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -153,8 +165,8 @@ export default function Home() {
 
         <GridItem>
           <CustomeInput label={questionList.oldpeak.question}>
-            <NumberInput min={0} max={20} step={0.1}>
-              <NumberInputField placeholder={questionList.chol.question} />
+            <NumberInput min={MIN_OLD_PEAK} max={MAX_OLD_PEAK} step={0.1}>
+              <NumberInputField placeholder={questionList.oldpeak.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
