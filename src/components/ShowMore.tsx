@@ -15,7 +15,7 @@ function Label(props: { children: ReactNode }) {
   return <FormLabel>{children}</FormLabel>;
 }
 
-export function ShowMore(props: { message?: string; children: ReactNode }) {
+export function ShowMore(props: { message: string; children: ReactNode }) {
   const { message, children } = props;
   const [show, setShow] = useState(-1);
 
@@ -46,8 +46,8 @@ export function ShowMore(props: { message?: string; children: ReactNode }) {
             />
           </AccordionButton>
         </Flex>
-        <AccordionPanel p={0} pb={4}>
-          {message}
+        <AccordionPanel p={0} pb={4} fontSize="14px" fontStyle="italic">
+          <p dangerouslySetInnerHTML={{ __html: message }}></p>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

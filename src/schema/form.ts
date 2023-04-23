@@ -52,7 +52,7 @@ export const formSchema = z.object({
     .min(MIN_OLD_PEAK)
     .max(MAX_OLD_PEAK),
   slope: z.number().min(0).max(2),
-  ca: z.number().min(0).max(3),
+  // ca: z.number().min(0).max(3),
   thal: z.number().min(0).max(2),
 });
 

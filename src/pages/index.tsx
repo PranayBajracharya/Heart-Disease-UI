@@ -1,6 +1,7 @@
 import CustomInput from "@components/Input";
 import Submit from "@components/Submit";
 import {
+  MAX_AGE,
   MAX_BPS,
   MAX_CHOLESTRAL,
   MAX_OLD_PEAK,
@@ -43,9 +44,12 @@ export default function Home() {
 
     if (validate.success) {
       setIsLoading(true);
-      const response = await fetch("/api/result", {
+      const response = await fetch("http://127.0.0.1:8000", {
         method: "POST",
         body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
         .then((res) => {
           if (res.ok) return res.json();
@@ -57,6 +61,17 @@ export default function Home() {
         });
 
       console.log(response);
+
+      const logReg = Number(response.logistic_regression);
+      const svm = Number(response.svm);
+      const dt = Number(response.dt);
+
+      if (logReg + svm + dt > 1) {
+        console.log("You are likely to have a heart disease.");
+      } else {
+        console.log("You are not likely to have a heart disease.");
+      }
+
       setIsLoading(false);
       return;
     }
@@ -76,8 +91,6 @@ export default function Home() {
         How healthy is your heart? We will help you figure that out.
       </Heading>
 
-      <Submit isLoading={isLoading} />
-
       <Grid
         rowGap="2rem"
         columnGap="4rem"
@@ -89,14 +102,10 @@ export default function Home() {
           <CustomInput
             label={questionList.age.question}
             error={error?.get("age")}
-            message={questionList.age.message}
             isRequired={questionList.age.isRequired}
           >
-            <NumberInput min={MIN_AGE} name="age">
-              <NumberInputField
-                type="number"
-                placeholder={questionList.age.question}
-              />
+            <NumberInput min={MIN_AGE} max={MAX_AGE} name="age">
+              <NumberInputField placeholder={questionList.age.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -122,6 +131,7 @@ export default function Home() {
           <CustomInput
             label={questionList.cp.question}
             error={error?.get("cp")}
+            message={questionList.cp.message}
             isRequired={questionList.cp.isRequired}
           >
             <RadioGroup name="cp">
@@ -142,10 +152,7 @@ export default function Home() {
             isRequired={questionList.trestbps.isRequired}
           >
             <NumberInput name="trestbps" min={MIN_BPS} max={MAX_BPS}>
-              <NumberInputField
-                type="number"
-                placeholder={questionList.trestbps.question}
-              />
+              <NumberInputField placeholder={questionList.trestbps.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -161,10 +168,7 @@ export default function Home() {
             isRequired={questionList.chol.isRequired}
           >
             <NumberInput name="chol" min={MIN_CHOLESTRAL} max={MAX_CHOLESTRAL}>
-              <NumberInputField
-                type="number"
-                placeholder={questionList.chol.question}
-              />
+              <NumberInputField placeholder={questionList.chol.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -202,7 +206,7 @@ export default function Home() {
                 </Radio>
                 <Radio value="2">
                   Showing probable or definite left ventricular hypertrophy by
-                  Estes' criteria
+                  Estes criteria
                 </Radio>
               </Stack>
             </RadioGroup>
@@ -216,10 +220,7 @@ export default function Home() {
             isRequired={questionList.thalach.isRequired}
           >
             <NumberInput name="thalach" min={MIN_THALACH} max={MAX_THALACH}>
-              <NumberInputField
-                type="number"
-                placeholder={questionList.thalach.question}
-              />
+              <NumberInputField placeholder={questionList.thalach.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -232,6 +233,7 @@ export default function Home() {
           <CustomInput
             label={questionList.exang.question}
             error={error?.get("exang")}
+            message={questionList.exang.message}
             isRequired={questionList.exang.isRequired}
           >
             <RadioGroup name="exang">
@@ -255,10 +257,7 @@ export default function Home() {
               max={MAX_OLD_PEAK}
               step={0.1}
             >
-              <NumberInputField
-                type="number"
-                placeholder={questionList.oldpeak.question}
-              />
+              <NumberInputField placeholder={questionList.oldpeak.question} />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -271,19 +270,20 @@ export default function Home() {
           <CustomInput
             label={questionList.slope.question}
             error={error?.get("slope")}
+            message={questionList.slope.message}
             isRequired={questionList.slope.isRequired}
           >
             <RadioGroup name="slope">
               <Stack spacing={5} direction="row">
-                <Radio value="0">No problem</Radio>
-                <Radio value="1">Normal</Radio>
-                <Radio value="2">Worst</Radio>
+                <Radio value="0">Up-sloping</Radio>
+                <Radio value="1">Flat</Radio>
+                <Radio value="2">Down-sloping</Radio>
               </Stack>
             </RadioGroup>
           </CustomInput>
         </GridItem>
 
-        <GridItem>
+        {/* <GridItem>
           <CustomInput
             label={questionList.ca.question}
             error={error?.get("ca")}
@@ -298,24 +298,28 @@ export default function Home() {
               </Stack>
             </RadioGroup>
           </CustomInput>
-        </GridItem>
+        </GridItem> */}
 
         <GridItem>
           <CustomInput
             label={questionList.thal.question}
             error={error?.get("thal")}
+            message={questionList.thal.message}
             isRequired={questionList.thal.isRequired}
           >
             <RadioGroup name="thal">
               <Stack spacing={5} direction="row">
-                <Radio value="0">Normal</Radio>
-                <Radio value="1">Fixed defect</Radio>
-                <Radio value="2">Reversible defect</Radio>
+                <Radio value="0">No Thalassemia</Radio>
+                <Radio value="1">Normal Thalassemia</Radio>
+                <Radio value="2">Fixed defect Thalassemia</Radio>
+                <Radio value="3">Reversible defect Thalassemia</Radio>
               </Stack>
             </RadioGroup>
           </CustomInput>
         </GridItem>
       </Grid>
+
+      <Submit isLoading={isLoading} />
     </form>
   );
 }
