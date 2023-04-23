@@ -33,6 +33,7 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
 
