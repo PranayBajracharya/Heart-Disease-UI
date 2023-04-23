@@ -53,9 +53,9 @@ export const formSchema = z.object({
     .max(MAX_OLD_PEAK),
   slope: z.number().min(0).max(2),
   // ca: z.number().min(0).max(3),
-  thal: z.number().min(0).max(2),
+  thal: z.number().min(0).max(3),
 });
 
-type FormSchema = z.infer<typeof formSchema>;
+export type FormSchema = z.infer<typeof formSchema>;
 export type FormErrorSchema = Record<keyof FormSchema, string>;
 export type FormErrorKey = keyof FormErrorSchema;

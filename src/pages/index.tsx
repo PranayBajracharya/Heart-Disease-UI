@@ -25,6 +25,7 @@ import {
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Select } from "@chakra-ui/select";
 import { useState } from "react";
+import { normalizedInput } from "@utils/normalize";
 
 export default function Home() {
   const [error, setError] = useState<Map<FormErrorKey, string> | null>(null);
@@ -42,11 +43,13 @@ export default function Home() {
 
     const validate = formSchema.safeParse(data);
 
+    const normalizedData = normalizedInput(data);
+
     if (validate.success) {
       setIsLoading(true);
       const response = await fetch("http://127.0.0.1:8000", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(normalizedData),
         headers: {
           "Content-Type": "application/json",
         },

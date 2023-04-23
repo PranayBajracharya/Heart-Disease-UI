@@ -18,7 +18,8 @@ export default function CustomInput(props: {
 
   return (
     <FormControl
-      border="2px solid #ddd"
+      border="1px solid"
+      borderColor="purple.400"
       borderRadius="1rem"
       px="2rem"
       py="1.6rem"

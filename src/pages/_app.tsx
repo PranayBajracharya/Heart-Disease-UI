@@ -3,6 +3,7 @@ import { ChakraProvider, Flex, Stack } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 import Header from "@components/Header";
 import theme from "@styles/theme";
+import Head from "next/head";
 
 const Layout: React.FC<{ children: ReactNode }> = (props) => {
   return (
@@ -21,6 +22,9 @@ const Layout: React.FC<{ children: ReactNode }> = (props) => {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
+      <Head>
+        <title>Heart Disease</title>
+      </Head>
       <Flex minH="100vh" direction="column" bg="primary.50">
         <Header />
         <Layout>
