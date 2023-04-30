@@ -36,9 +36,9 @@ export const normalizedInput = (data: FormSchema) => {
   if (normalizedData.thalach < 0) normalizedData.thalach = 0;
   if (normalizedData.thalach > 1) normalizedData.thalach = 1;
 
-  normalizedData.oldpeak = normalize(data.oldpeak, MAX_OLD_PEAK, MIN_OLD_PEAK);
-  if (normalizedData.oldpeak < 0) normalizedData.oldpeak = 0;
-  if (normalizedData.oldpeak > 1) normalizedData.oldpeak = 1;
+  // normalizedData.oldpeak = normalize(data.oldpeak, MAX_OLD_PEAK, MIN_OLD_PEAK);
+  // if (normalizedData.oldpeak < 0) normalizedData.oldpeak = 0;
+  // if (normalizedData.oldpeak > 1) normalizedData.oldpeak = 1;
 
   return normalizedData;
 };

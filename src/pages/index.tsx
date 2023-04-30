@@ -26,10 +26,12 @@ import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { Select } from "@chakra-ui/select";
 import { useState } from "react";
 import { normalizedInput } from "@utils/normalize";
+import { useToast } from "@chakra-ui/react";
 
 export default function Home() {
   const [error, setError] = useState<Map<FormErrorKey, string> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,13 +46,13 @@ export default function Home() {
 
     const validate = formSchema.safeParse(data);
 
-    const normalizedData = normalizedInput(data);
+    // const normalizedData = normalizedInput(data);
 
     if (validate.success) {
       setIsLoading(true);
       const response = await fetch("http://127.0.0.1:8000", {
         method: "POST",
-        body: JSON.stringify(normalizedData),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
@@ -66,14 +68,23 @@ export default function Home() {
 
       console.log(response);
 
-      const logReg = Number(response.logistic_regression);
-      const svm = Number(response.svm);
-      const dt = Number(response.dt);
+      // const logReg = Number(response.logistic_regression);
+      // const svm = Number(response.svm);
+      // const dt = Number(response.dt);
+      const result = response.result;
 
-      if (logReg + svm + dt > 1) {
+      if (result === "True") {
         console.log("You are likely to have a heart disease.");
+        toast({
+          title: "You are likely to have a heart disease",
+          status: "error",
+        });
       } else {
         console.log("You are not likely to have a heart disease.");
+        toast({
+          title: "You are not likely to have a heart disease",
+          status: "success",
+        });
       }
 
       setIsLoading(false);
@@ -196,7 +207,7 @@ export default function Home() {
           </CustomInput>
         </GridItem>
 
-        <GridItem>
+        {/* <GridItem>
           <CustomInput
             label={questionList.restecg.question}
             error={error?.get("restecg")}
@@ -215,7 +226,7 @@ export default function Home() {
               </Stack>
             </RadioGroup>
           </CustomInput>
-        </GridItem>
+        </GridItem> */}
 
         <GridItem>
           <CustomInput
@@ -249,7 +260,7 @@ export default function Home() {
           </CustomInput>
         </GridItem>
 
-        <GridItem>
+        {/* <GridItem>
           <CustomInput
             label={questionList.oldpeak.question}
             error={error?.get("oldpeak")}
@@ -285,7 +296,7 @@ export default function Home() {
               </Stack>
             </RadioGroup>
           </CustomInput>
-        </GridItem>
+        </GridItem> */}
 
         {/* <GridItem>
           <CustomInput
@@ -304,7 +315,7 @@ export default function Home() {
           </CustomInput>
         </GridItem> */}
 
-        <GridItem>
+        {/* <GridItem>
           <CustomInput
             label={questionList.thal.question}
             error={error?.get("thal")}
@@ -320,7 +331,7 @@ export default function Home() {
               </Stack>
             </RadioGroup>
           </CustomInput>
-        </GridItem>
+        </GridItem> */}
       </Grid>
 
       <Submit isLoading={isLoading} />

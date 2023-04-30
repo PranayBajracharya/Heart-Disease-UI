@@ -37,7 +37,7 @@ export const formSchema = z.object({
     .min(MIN_CHOLESTRAL)
     .max(MAX_CHOLESTRAL),
   fbs: z.number().min(0).max(1),
-  restecg: z.number().min(0).max(2),
+  // restecg: z.number().min(0).max(2),
   thalach: z
     .number({
       invalid_type_error: "Required",
@@ -45,15 +45,15 @@ export const formSchema = z.object({
     .min(MIN_THALACH)
     .max(MAX_THALACH),
   exang: z.number().min(0).max(1),
-  oldpeak: z
-    .number({
-      invalid_type_error: "Required",
-    })
-    .min(MIN_OLD_PEAK)
-    .max(MAX_OLD_PEAK),
-  slope: z.number().min(0).max(2),
+  // oldpeak: z
+  //   .number({
+  //     invalid_type_error: "Required",
+  //   })
+  //   .min(MIN_OLD_PEAK)
+  //   .max(MAX_OLD_PEAK),
+  // slope: z.number().min(0).max(2),
   // ca: z.number().min(0).max(3),
-  thal: z.number().min(0).max(3),
+  // thal: z.number().min(0).max(3),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;
